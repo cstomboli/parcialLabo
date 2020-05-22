@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estilos</title>
+    <script type= "text/javascript" src="JS/funciones.js"></script>
+    <link rel="stylesheet" href="IMG/hoja.css"/> 
+
+</head>
+<body>
+    <div class="relative1">
+        <table id="tabla">
+            <br>
+            <label id="txtLista"> Lista de Personas</label>
+            <br>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Fecha</th>
+                    <th>Sexo</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+    <div id="loading" >
+        <img src= "IMG/carrgando.gif">
+    </div>
+    <div id="container" > 
+        <div class="bCerrar"> 
+            <input type="button" class="btnCerrar" id="btnCerrar" value="X">
+            <br>
+        </div>
+        <div>
+            <label id="lblDatos" for="txtNombre">Nombre </label> 
+            <br>
+            <input type="text" name="nombre" id="user" class="recuadro" placeholder="Nombre"> 
+        </div>
+        <div> 
+            <label id="lblDatos" for="txtApellido">Apellido</label>
+            <br>
+            <input type="text" name="apellido" id="password" class="recuadro" placeholder="Apellido"> 
+        </div>
+        <div> 
+            <label id="lblDatos" for="txtFecha">Fecha</label>
+            <br>
+            <input type="date" name="apellido" id="fecha" class="recuadro" max="2020-5-21"> 
+        </div>
+        <div> 
+            <label id="lblDatos" for="txtTelefono">Sexo</label>
+            <br>
+            <input type="radio" id="femenino" value="Female">Female
+            
+            <input type="radio" id="masculino" value="Male">Male
+            
+        </div>
+        <input type="button" class= "button" id="btnGuardar" value="Guardar"> 
+        <input type="button" class= "button" id="btnEliminar" value="Eliminar"> 
+        <input type="button" class= "button" id="btnEditar" value="Editar"> 
+    </div>
+    
+</body>
+</html>
