@@ -10,7 +10,7 @@
     position: relative;
     width: 50%;
     left:20%;
-    top: -1100px;
+    top: -700px;
     justify-content: center; 
     background-color: rgb(221, 221, 221);    
     animation-name: aparecer;
@@ -52,6 +52,12 @@
     align-items: flex-end; /*No hace nada*/
 }
 
+#btnEliminar{
+    background-color:red;
+}
+#btnEliminar:hover{
+    background-color: palevioletred;
+}
 
 #lblDatos{
     margin: 8px;    

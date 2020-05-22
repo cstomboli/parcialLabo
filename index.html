@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estilos</title>
     <script type= "text/javascript" src="JS/funciones.js"></script>
-    <link rel="stylesheet" href="IMG/hoja.css"/> 
+    <link rel="stylesheet" href="CSS/hoja.css"/> 
 
 </head>
 <body>
@@ -16,10 +16,10 @@
             <br>
             <thead>
                 <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
+                    <th>Nombre Materia</th>
+                    <th>Cuatrimestre</th>
                     <th>Fecha</th>
-                    <th>Sexo</th>
+                    <th>Turno</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,14 +36,19 @@
             <br>
         </div>
         <div>
-            <label id="lblDatos" for="txtNombre">Nombre </label> 
+            <label id="lblDatos" for="txtNombre">Nombre materia </label> 
             <br>
-            <input type="text" name="nombre" id="user" class="recuadro" placeholder="Nombre"> 
+            <input type="text" name="nombre" id="materia" class="recuadro" placeholder="Nombre"> 
         </div>
         <div> 
-            <label id="lblDatos" for="txtApellido">Apellido</label>
+            <label id="lblDatos" for="txtApellido">Cuatrimestre</label>
             <br>
-            <input type="text" name="apellido" id="password" class="recuadro" placeholder="Apellido"> 
+            <select  name="cuatrimestre" id="cuatrimestre" class="recuadro"> 
+                <option value="opc1">1</option>
+                <option value="opc2">2</option>
+                <option value="opc3">3</option>
+                <option value="opc4">4</option>
+            </select>
         </div>
         <div> 
             <label id="lblDatos" for="txtFecha">Fecha</label>
@@ -51,16 +56,15 @@
             <input type="date" name="apellido" id="fecha" class="recuadro" max="2020-5-21"> 
         </div>
         <div> 
-            <label id="lblDatos" for="txtTelefono">Sexo</label>
+            <label id="lblDatos" for="txtTelefono">Turno</label>
             <br>
-            <input type="radio" id="femenino" value="Female">Female
+            <input type="radio" id="turnoMa" value="Female">Mañana
             
-            <input type="radio" id="masculino" value="Male">Male
+            <input type="radio" id="turnoNo" value="Male">Noche
             
         </div>
-        <input type="button" class= "button" id="btnGuardar" value="Guardar"> 
+        <input type="button" class= "button" id="btnGuardar" value="Modificar"> 
         <input type="button" class= "button" id="btnEliminar" value="Eliminar"> 
-        <input type="button" class= "button" id="btnEditar" value="Editar"> 
     </div>
     
 </body>

@@ -10,7 +10,7 @@ window.onload = function()
     var tabla= document.getElementById("tabla");
     var label= document.getElementById("txtLista");
     //var mostrar= document.getElementById("btnMostrar"); 
-   mostrarSegun(true, false, false, false); //loading
+  // mostrarSegun(true, false, false, false); //loading
     
    /* container.hidden=true; 
     loading.hidden=true;
@@ -19,7 +19,7 @@ window.onload = function()
                
             
     http.onreadystatechange = callback;
-    http.open("GET", "http://localhost:3000/personas",true);
+    http.open("GET", "http://localhost:3000/materias",true);
     http.send(); 
 
     var cerrar=this.document.getElementById("btnCerrar");
@@ -32,22 +32,22 @@ window.onload = function()
     var guardar = document.getElementById("btnGuardar");
     guardar.onclick=function()
     { 
-        if(document.getElementById("femenino").checked == true)
+        if(document.getElementById("turnoMa").checked == true)
         {
             var data = {nombre:document.getElementById("user").value,apellido:document.getElementById("password").value,fecha:document.getElementById("fecha").value,sexo:document.getElementById("femenino").value};
             var fila = "<tr><td>"+document.getElementById("user").value+"</td>"+
             "<td>"+document.getElementById("password").value+"</td>"+
             "<td>"+document.getElementById("fecha").value+"</td>"+
-            "<td>"+document.getElementById("femenino").value+"</td>"+"</tr>"
+            "<td>"+document.getElementById("turnoMa").value+"</td>"+"</tr>"
             tabla.innerHTML=tabla.innerHTML+fila; 
         }
-        else if (document.getElementById("masculino").checked == true) 
+        else if (document.getElementById("turnoNo").checked == true) 
         {
             var data = {nombre:document.getElementById("user").value,apellido:document.getElementById("password").value,fecha:document.getElementById("fecha").value,sexo:document.getElementById("masculino").value};
             var fila = "<tr><td>"+document.getElementById("user").value+"</td>"+
             "<td>"+document.getElementById("password").value+"</td>"+
             "<td>"+document.getElementById("fecha").value+"</td>"+
-            "<td>"+document.getElementById("masculino").value+"</td>"+"</tr>"
+            "<td>"+document.getElementById("turnoNo").value+"</td>"+"</tr>"
             tabla.innerHTML=tabla.innerHTML+fila; 
         } 
         http.onreadystatechange = function()
