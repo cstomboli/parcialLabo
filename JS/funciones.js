@@ -29,67 +29,31 @@ window.onload = function()
         mostrarSegun(true,true,false,false);
     } 
                 
-    var guardar = document.getElementById("btnGuardar");
-    guardar.onclick=function()
-    { 
-        if(document.getElementById("turnoMa").checked == true)
-        {
-            var data = {nombre:document.getElementById("user").value,apellido:document.getElementById("password").value,fecha:document.getElementById("fecha").value,sexo:document.getElementById("femenino").value};
-            var fila = "<tr><td>"+document.getElementById("user").value+"</td>"+
-            "<td>"+document.getElementById("password").value+"</td>"+
-            "<td>"+document.getElementById("fecha").value+"</td>"+
-            "<td>"+document.getElementById("turnoMa").value+"</td>"+"</tr>"
-            tabla.innerHTML=tabla.innerHTML+fila; 
-        }
-        else if (document.getElementById("turnoNo").checked == true) 
-        {
-            var data = {nombre:document.getElementById("user").value,apellido:document.getElementById("password").value,fecha:document.getElementById("fecha").value,sexo:document.getElementById("masculino").value};
-            var fila = "<tr><td>"+document.getElementById("user").value+"</td>"+
-            "<td>"+document.getElementById("password").value+"</td>"+
-            "<td>"+document.getElementById("fecha").value+"</td>"+
-            "<td>"+document.getElementById("turnoNo").value+"</td>"+"</tr>"
-            tabla.innerHTML=tabla.innerHTML+fila; 
-        } 
-        http.onreadystatechange = function()
-        {
-            if(http.readyState == 4 && http.status==200)
-            {
-                armarGrilla(JSON.parse(http.responseText)); 
-               mostrarSegun(true, true, false, false);
-            }
-            else
-            {
-                console.log("post error");
-                mostrarSegun(true, true, false, false);
-            }
-        }
-        http.open("POST", "http://localhost:3000/nueva",true);
-        http.setRequestHeader("Content-Type","application/json");
-        http.send(JSON.stringify(data)); 
-    }
-
-        var editar = document.getElementById("btnEditar");
-        editar.onclick=function()
+        var editar = document.getElementById("btnModificar");
+        editar.onclick=function() //al modificar, no desaparece, xq no puedo si no mostrar el error.
         {
             peticionPost("POST","http://localhost:3000/editar",true);
             hijo= padre.childNodes;
-            console.log(hijo[1].textContent);
+            //console.log(hijo[1].textContent);
             hijo[0].textContent=idObtenido;
-            if(chequearDatosConAviso(document.getElementById("user").value, document.getElementById("password").value))
+            if(chequearDatosConAviso(document.getElementById("materia").value))
             {
-                hijo[1].textContent=document.getElementById("user").value;
-                //document.getElementById("user").value= hijo[0].innerHTML; se puede escribir de las dos formas
-                hijo[2].textContent=document.getElementById("password").value;
-            }            
-            hijo [3].textContent=document.getElementById("fecha").value;
-            if(document.getElementById("femenino").checked = true)
-            {                
-                hijo[4].textContent=='Female'   
-            }
-            else if (document.getElementById("masculino").checked = true) 
-            {                
-                hijo[3].textContent=='Male'
-            }           
+                hijo[1].textContent=document.getElementById("materia").value;
+                var fecha= (document.getElementById("fecha").value).split('-');
+                var fechaCorrecta= fecha[2]+'/'+fecha[1]+'/'+fecha[0];
+                hijo [3].textContent=  fechaCorrecta;
+                if(document.getElementById("turnoMa").checked = true)
+                {                
+                    hijo[4].textContent=='Mañana'   
+                }
+                else if (document.getElementById("turnoNo").checked = true) 
+                {                
+                    hijo[3].textContent=='Noche'
+                }  
+                container.hidden=true;
+            } 
+            //hijo[2].textContent=(document.getElementById("cuatrimestre").value); Me gustaba poder cambiar la materia
+                     
         }
 
         var eliminar = document.getElementById("btnEliminar");
@@ -151,28 +115,26 @@ window.onload = function()
                     /*Esto se va a repetir por cada celda que quiera mostrar --- inicio*/
                     var td = document.createElement("td"); //creo la celda
                     var text = document.createTextNode(jsonObj[i].nombre); //creo el texto adentro de la celda
-                    td.appendChild(text) // Agrego el texto adentro de la celda
-                    tr.appendChild(td);//agrego la celda adentro de la fila
-                    /*Esto se va a repetir por cada celda que quiera mostrar --- fin*/  
+                    td.appendChild(text) 
+                    tr.appendChild(td);
                     var tdApe = document.createElement("td"); 
-                    var text = document.createTextNode(jsonObj[i].apellido); 
+                    var text = document.createTextNode(jsonObj[i].cuatrimestre); 
                     tdApe.appendChild(text) 
                     tr.appendChild(tdApe); 
-
+                    
                     var tdFec = document.createElement("td"); 
-                    var text = document.createTextNode(jsonObj[i].fecha); 
+                    var text = document.createTextNode(jsonObj[i].fechaFinal); 
                     tdFec.appendChild(text) 
                     tr.appendChild(tdFec);
 
                     var tdSxc = document.createElement("td"); 
-                    var text = document.createTextNode(jsonObj[i].sexo); 
+                    var text = document.createTextNode(jsonObj[i].turno); 
                     tdSxc.appendChild(text) 
                     tr.appendChild(tdSxc);
                     
                     tr.addEventListener("dblclick",clickGrilla);
 
-                    tabla.appendChild(tr);//Agrego la fila a la tabla
-                    //loading.hidden=true;
+                    tabla.appendChild(tr);
                 }
             }
 
@@ -181,20 +143,20 @@ window.onload = function()
             http.onreadystatechange =funcion;
             http.open(metodo, url, true);
             http.setRequestHeader("Content-Type","application/json");
-            if ((document.getElementById("femenino").checked==true) && (chequearDatos(document.getElementById("user").value, document.getElementById("password").value, document.getElementById("fecha").value)))
+            if ((document.getElementById("turnoMa").checked==true) && (chequearDatos(document.getElementById("materia").value), document.getElementById("fecha").value))
             {
-                var data = {id:idObtenido,nombre:document.getElementById("user").value,apellido:document.getElementById("password").value,fecha:document.getElementById("fecha").value,sexo:document.getElementById("femenino").value};
+                var data = {id:idObtenido,nombre:document.getElementById("materia").value,cuatrimestre:checkCuatrimestre(document.getElementById("cuatrimestre").value),fechaFinal:document.getElementById("fecha").value,turno:document.getElementById("turnoMa").value};
             }
-            else if ((document.getElementById("masculino").checked==true)&& (chequearDatos(document.getElementById("user").value, document.getElementById("password").value)))
+            else if ((document.getElementById("turnoNo").checked==true)&& (chequearDatos(document.getElementById("materia").value), document.getElementById("password").value))
             {
-                var data = {id:idObtenido,nombre:document.getElementById("user").value,apellido:document.getElementById("password").value,fecha:document.getElementById("fecha").value,sexo:document.getElementById("masculino").value};
+                var data = {id:idObtenido,nombre:document.getElementById("materia").value,cuatrimestre:checkCuatrimestre(document.getElementById("cuatrimestre").value),fechaFinal:document.getElementById("fecha").value,turno:document.getElementById("turnoNo").value};
             }
-            else if((document.getElementById("femenino").checked==false)&&(document.getElementById("masculino").checked==false))
+            else if((document.getElementById("turnoMa").checked==false)&&(document.getElementById("turnoNo").checked==false))
             {
                 data= null;
             }
             http.send(JSON.stringify(data));
-            container.hidden=true;
+            //container.hidden=true; Si lo pongo no muestra el rojo
             //loading.hidden=true; 
 
         }
@@ -217,43 +179,33 @@ window.onload = function()
             hijo= padre.childNodes;
             //console.log(padre);
             idObtenido=hijo[0].textContent;
-            document.getElementById("user").value= hijo[1].textContent;
+            document.getElementById("materia").value= hijo[1].textContent;
             //document.getElementById("user").value= hijo[0].innerHTML; se puede escribir de las dos formas
-            document.getElementById("password").value=hijo[2].textContent;
-            document.getElementById("fecha").value =hijo [3].textContent;
-            if(hijo[4].textContent=='Female')
+            //var cuatr= document.getElementById("cuatrimestre").value;
+            checkCuatrimestre(hijo[2].textContent);            
+            var fecha= (hijo [3].textContent).split('/');
+            var fechaCorrecta= fecha[2]+'-'+fecha[1]+'-'+fecha[0];
+            document.getElementById("fecha").value = fechaCorrecta;
+            if(hijo[4].textContent=="Mañana")
             {
-                document.getElementById("femenino").checked = true   
+                document.getElementById("turnoMa").checked = true   
             }
-            else if (hijo[3].textContent=='Male') 
+            else if (hijo[3].textContent=='Noche') 
             {
-                document.getElementById("masculino").checked = true
+                document.getElementById("turnoNo").checked = true
             } 
         }
 
-        function chequearDatos(nombre, apellido, fecha)
+        function chequearDatos(nombre)
         {
             var retorno = true;
             //var fechaActual= new Date();
             //var fechaIngresada = Date(fecha);
- 
-            if((nombre.value == "" || nombre.length<=3) || (apellido.value == "" || apellido.length<=3) )
+            if(nombre.value == "" || nombre.length<6) 
             {
-                if(nombre.value == "" || nombre.length<=3)
-                {
-                    document.getElementById("user").className="classError";
-                }                
-                else if(apellido.value == "" || apellido.length<=3)
-                {
-                    document.getElementById("password").className="classError";
-                }
-                /*
-                else if(fechaIngresada.getTime()>fechaActual.getTime())
-                {
-                    alert("la fecha debe ser anterior a la actual");
-                }    */
-                retorno = false;            
-            }          
+                document.getElementById("materia").className="classError";
+                retorno = false;
+            }                         
             return retorno;
         }
 
@@ -261,21 +213,38 @@ window.onload = function()
         {
             var retorno = true;
 
-            if((nombre.value == "" || nombre.length<=3) || (apellido.value == "" || apellido.length<=3))
+            if(nombre.value == "" || nombre.length<6)
             {
-                if(nombre.value == "" || nombre.length<=3)
-                {
-                    document.getElementById("user").className="classError";
-                    alert("Debe ingresar nombre con mas de 3 letras");
-                }                
-                else if(apellido.value == "" || apellido.length<=3)
-                {
-                    document.getElementById("password").className="classError";
-                    alert("Debe ingresar apellido con mas de 3 letras");
-                }    
-                retorno = false;            
-            } 
+                document.getElementById("materia").className="classError";
+                alert("Debe ingresar nombre con mas de 3 letras");
+                retorno = false;
+            }                
             return retorno;
+        }
+
+        function checkCuatrimestre(cuatr)
+        {
+            //alert(cuatr);
+            indice=cuatr-1;
+            //alert(indice);
+
+            retorno="";
+            if(cuatr==1)
+            {
+                document.getElementById('cuatrimestre').getElementsByTagName('option')[indice].selected= 'selected';
+            }
+            if(cuatr == 2)
+            {
+                document.getElementById('cuatrimestre').getElementsByTagName('option')[indice].selected= 'selected';
+            }
+            if(cuatr==3)
+            {
+                document.getElementById('cuatrimestre').getElementsByTagName('option')[indice].selected = 'selected';
+            }
+            if(cuatr == 4)
+            {
+                document.getElementById('cuatrimestre').getElementsByTagName('option')[indice].selected  = 'selected';
+            }
         }
 
 
