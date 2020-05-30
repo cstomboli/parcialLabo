@@ -33,6 +33,12 @@ window.onload = function()
         editar.onclick=function() //al modificar, no desaparece, xq no puedo si no mostrar el error.
         {
             peticionPost("POST","http://localhost:3000/editar",true);
+            //antes de hacer todo, un if para saber que me response el servidor.
+            //if((peticionPost("POST","http://localhost:3000/editar",true).response)=="ok")
+           // {
+                //funcionara NOO
+            //}
+
             hijo= padre.childNodes;
             //console.log(hijo[1].textContent);
             hijo[0].textContent=idObtenido;
@@ -42,13 +48,16 @@ window.onload = function()
                 var fecha= (document.getElementById("fecha").value).split('-');
                 var fechaCorrecta= fecha[2]+'/'+fecha[1]+'/'+fecha[0];
                 hijo [3].textContent=  fechaCorrecta;
-                if(document.getElementById("turnoMa").checked = true)
+                if(document.getElementById("turnoMa").checked == true)
                 {                
-                    hijo[4].textContent=='Mañana'   
+                    //hijo[4].textContent=='Mañana';  //no me modifica
+                    hijo[4].textContent= document.getElementById("turnoMa").value; //esto tmp
                 }
-                else if (document.getElementById("turnoNo").checked = true) 
+                else if (document.getElementById("turnoNo").checked == true) 
                 {                
-                    hijo[3].textContent=='Noche'
+                    //hijo[4].textContent=='Noche';
+                    hijo[4].textContent= document.getElementById("turnoNo").value;
+
                 }  
                 container.hidden=true;
             } 
@@ -62,7 +71,8 @@ window.onload = function()
             peticionPostId("POST", "http://localhost:3000/eliminar", true, idObtenido)
             console.log(idObtenido);
             padre.remove();
-            //padre.removeChild(hijo[1]); //esto lo elimina, va borra ese contenido                
+            //padre.removeChild(hijo[1]); //esto lo elimina, va borra ese contenido 
+            //VALIDAR CON IF TYPE is ok.               
         }
 }
 
@@ -81,8 +91,9 @@ window.onload = function()
         {
             http.onreadystatechange =funcion;
             http.open(metodo, url, true);
-            //http.setRequestHeader("Content-Type","application/json");                
-            http.send(id);
+            http.setRequestHeader("Content-Type","application/json");
+            var data = {id:id}; //y agregue esto               
+            http.send(JSON.stringify(data)); //modifique esto pero igual
             container.hidden=true;
             //loading.hidden=false;
         }
@@ -93,7 +104,9 @@ window.onload = function()
             {
                 armarGrilla(JSON.parse(http.responseText));  
                 mostrarSegun(true, true, false, false);
+                //loading, hiddden true. Segun el profesor
             }
+            //else if( si es 4 y no es 200)
             else
             {
                 console.log("este error");
@@ -147,7 +160,7 @@ window.onload = function()
             {
                 var data = {id:idObtenido,nombre:document.getElementById("materia").value,cuatrimestre:checkCuatrimestre(document.getElementById("cuatrimestre").value),fechaFinal:document.getElementById("fecha").value,turno:document.getElementById("turnoMa").value};
             }
-            else if ((document.getElementById("turnoNo").checked==true)&& (chequearDatos(document.getElementById("materia").value), document.getElementById("password").value))
+            else if ((document.getElementById("turnoNo").checked==true)&& (chequearDatos(document.getElementById("materia").value), document.getElementById("fecha").value))
             {
                 var data = {id:idObtenido,nombre:document.getElementById("materia").value,cuatrimestre:checkCuatrimestre(document.getElementById("cuatrimestre").value),fechaFinal:document.getElementById("fecha").value,turno:document.getElementById("turnoNo").value};
             }
@@ -157,7 +170,7 @@ window.onload = function()
             }
             http.send(JSON.stringify(data));
             //container.hidden=true; Si lo pongo no muestra el rojo
-            //loading.hidden=true; 
+            //loading.hidden=false; Segun el profesor
 
         }
 
@@ -190,7 +203,7 @@ window.onload = function()
             {
                 document.getElementById("turnoMa").checked = true   
             }
-            else if (hijo[3].textContent=='Noche') 
+            else if (hijo[3].textContent=="Noche") 
             {
                 document.getElementById("turnoNo").checked = true
             } 

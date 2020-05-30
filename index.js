@@ -215,13 +215,18 @@ app.post("/editar",function(req,res){
 app.post("/eliminar",function(req,res){
     setTimeout(function(){
         
-       console.log(req.body);
-        if(req.body.id!= undefined&&req.body.id!= ""){
+      console.log(req.body.id); // muestra el id bien pero no lo elimina
+      if(req.body.id!= undefined&&req.body.id!= ""){
 	
 			for(var i =0;i<personas.length;i++){
+             console.log(req.body.id); //no muestra aca 
+            console.log(personas[i].id);
 					if(req.body.id== personas[i].id){
+            console.log(req.body.id);   //ni aca
+            console.log(personas[i].id);
+
 						personas.splice(i,1);
-        	var data = {"type":"ok"};
+        	  var data = {"type":"ok"};
 							res.send(data);    
 							return;
 					}
